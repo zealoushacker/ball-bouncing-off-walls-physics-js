@@ -40,25 +40,26 @@ Physics(function(world){
       cof: 0
   }));
 
-  // add a circle
-  world.add(
-      Physics.body('circle', {
-        x: 250, // x-coordinate
-        y: 480, // y-coordinate
-        vx: 1, // velocity in x-direction
-        vy: 1, // velocity in y-direction
-        radius: 10
-      })
-  );
+  // add a "ball"
+  var ball = Physics.body('circle', {
+    x: 250, // x-coordinate
+    y: 480, // y-coordinate
+    vx: 0, // velocity in x-direction
+    vy: 0, // velocity in y-direction
+    radius: 10
+  });
 
-  world.add(
-    Physics.body('rectangle', {
-      x: 250,
-      y: 500,
-      width: 75,
-      height: 10
-    })
-  );
+  world.add(ball);
+
+  // add the platform
+  var platform = Physics.body('rectangle', {
+    x: 250,
+    y: 500,
+    width: 75,
+    height: 10
+  });
+
+  world.add(platform);
 
   // ensure objects bounce when edge collision is detected
   world.add( Physics.behavior('body-impulse-response') );
@@ -77,5 +78,12 @@ Physics(function(world){
 
   // start the ticker
   Physics.util.ticker.start();
+
+  window.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {
+      ball.state.vel.set(1, -1);
+      ball.recalc();
+    }
+  });
 
 });
