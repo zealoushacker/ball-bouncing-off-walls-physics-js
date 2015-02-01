@@ -52,9 +52,10 @@ Physics(function(world){
   // add the platform
   var platform = Physics.body('rectangle', {
     x: 250,
-    y: 500,
+    y: 495,
     width: 75,
-    height: 10
+    height: 10,
+    treatment: 'static'
   });
 
   world.add(platform);
@@ -77,6 +78,10 @@ Physics(function(world){
   window.addEventListener('keyup', function(event) {
     if (event.keyCode === 13) {
       world.emit('start-ball');
+    } else if (event.keyCode === 37) {
+      world.emit('move', 'left');
+    } else if (event.keyCode == 39) {
+      world.emit('move', 'right');
     }
   });
 
@@ -84,8 +89,12 @@ Physics(function(world){
   Physics.util.ticker.start();
 
   world.one('start-ball', function(data, e) {
-    ball.state.vel.set(1,-1);
+    ball.state.vel.set(0.33,-0.33);
     ball.sleep(false);
+  });
+
+  world.on('move', function(data, e) {
+    platform.state.pos.set(platform.state.pos.x + (data === 'left' ? -20 : 20), platform.state.pos.y);
   });
 
 });
