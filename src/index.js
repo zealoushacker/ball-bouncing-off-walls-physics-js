@@ -44,8 +44,6 @@ Physics(function(world){
   var ball = Physics.body('circle', {
     x: 250, // x-coordinate
     y: 480, // y-coordinate
-    vx: 0, // velocity in x-direction
-    vy: 0, // velocity in y-direction
     radius: 10
   });
 
@@ -76,14 +74,18 @@ Physics(function(world){
       world.step( time );
   });
 
+  window.addEventListener('keyup', function(event) {
+    if (event.keyCode === 13) {
+      world.emit('start-ball');
+    }
+  });
+
   // start the ticker
   Physics.util.ticker.start();
 
-  window.addEventListener('keyup', function(event) {
-    if (event.keyCode === 13) {
-      ball.state.vel.set(1, -1);
-      ball.recalc();
-    }
+  world.one('start-ball', function(data, e) {
+    ball.state.vel.set(1,-1);
+    ball.sleep(false);
   });
 
 });
