@@ -1,4 +1,4 @@
-var Physics = require('../vendor/physicsjs/physicsjs-full');
+var Physics = require('../vendor/physicsjs/dist/physicsjs-full');
 
 Physics(function(world){
   var viewWidth = 500;

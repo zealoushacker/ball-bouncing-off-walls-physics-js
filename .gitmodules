@@ -1,0 +1,3 @@
+[submodule "vendor/physicsjs"]
+	path = vendor/physicsjs
+	url = https://github.com/wellcaffeinated/PhysicsJS
