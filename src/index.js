@@ -97,4 +97,8 @@ Physics(function(world){
     platform.state.pos.set(platform.state.pos.x + (data === 'left' ? -20 : 20), platform.state.pos.y);
   });
 
+  world.on('collisions:detected', function(data, e) {
+    console.log(data);
+  });
+
 });
