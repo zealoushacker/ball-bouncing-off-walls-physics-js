@@ -49,6 +49,18 @@ Physics(function(world){
 
   world.add(ball);
 
+  var another_ball = Physics.body('rectangle', {
+    x: 260, // x-coordinate
+    y: 420, // y-coordinate
+    width: 10,
+    height: 10,
+    treatment: 'static'
+  });
+
+  world.add(ball);
+
+  world.add(another_ball);
+
   // add the platform
   var platform = Physics.body('rectangle', {
     x: 250,
@@ -80,8 +92,16 @@ Physics(function(world){
       world.emit('start-ball');
     } else if (event.keyCode === 37) {
       world.emit('move', 'left');
-    } else if (event.keyCode == 39) {
+    } else if (event.keyCode === 39) {
       world.emit('move', 'right');
+    } else if (event.keyCode === 65) {
+      world.emit('move-ball', 'left');
+    } else if (event.keyCode === 68) {
+      world.emit('move-ball', 'right');
+    } else if (event.keyCode === 88) {
+      world.emit('move-ball', 'top');
+    } else if (event.keyCode === 83) {
+      world.emit('move-ball', 'down');
     }
   });
 
@@ -95,6 +115,15 @@ Physics(function(world){
 
   world.on('move', function(data, e) {
     platform.state.pos.set(platform.state.pos.x + (data === 'left' ? -20 : 20), platform.state.pos.y);
+  });
+
+  world.on('move-ball', function(data, e) {
+    var pixels = (data === 'left' || data === 'top' ? -20 : 20);
+    if (data === 'left' || data === 'right') {
+      another_ball.state.pos.set(another_ball.state.pos.x + pixels, another_ball.state.pos.y);
+    } else {
+      another_ball.state.pos.set(another_ball.state.pos.x, another_ball.state.pos.y + pixels);
+    }
   });
 
   world.on('collisions:detected', function(data, e) {
